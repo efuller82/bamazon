@@ -1,8 +1,29 @@
-// npms:
 // need inquirer
 //need mysql
+var mysql = require('mysql');
+var inquirer = require('inquirer');
 
 // connect to db
+var connection = mysql.createConnection({
+    host: "localhost",
+    port: "3306",
+    user: "root",
+    password: "Isaaczoeezra1!",
+    database: "bamazon"
+})
+
+
+connection.connect(function (err) {
+    if (err) throw err;
+    // test connection
+    console.log("Connected as id: " + connection.threadId);
+    //display data
+    connection.query("SELECT * FROM products", function (err, result) {
+        if (err) throw err;
+        console.log(result);
+    })
+})
+
 
 // display all items available for sale, including:
 // id, names, prices
