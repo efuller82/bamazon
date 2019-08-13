@@ -2,6 +2,8 @@
 // need inquirer
 //need mysql
 
+// connect to db
+
 // display all items available for sale, including:
 // id, names, prices
 
