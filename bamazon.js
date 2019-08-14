@@ -2,6 +2,7 @@
 //need mysql
 var mysql = require('mysql');
 var inquirer = require('inquirer');
+var Table = require("cli-table3");
 
 // connect to db
 var connection = mysql.createConnection({
@@ -13,31 +14,36 @@ var connection = mysql.createConnection({
 })
 
 
-connection.connect(function (err) {
-    if (err) throw err;
+connection.connect();
+
+var display = function () {
     // test connection
     console.log("Connected as id: " + connection.threadId);
     //display data
     connection.query("SELECT * FROM products", function (err, result) {
         if (err) throw err;
-        console.log(result);
+        console.log();
+        console.log();
+        console.log();
+        console.log();
+
+        // setting up table design
+        var table = new Table({
+            head: ['ID', 'Product Name', 'Cost'],
+            colWidths: [8, 30, 10],
+            colAligns: ['center', 'left', 'left'],
+            style: {
+                head: ['blue'],
+                compact: true
+            }
+        });
+        for (var i = 0; i < result.length; i++) {
+            table.push([result[i].id, result[i].product_name, '$' + result[i].price]);
+        }
+        console.log(table.toString());
+        console.log('');
     })
-})
+};
 
+display();
 
-// display all items available for sale, including:
-// id, names, prices
-
-// prompt user with two messages
-
-    // ask them the name of the product they'd like to buy
-
-    // it should then ask how many they'd like to buy
-
-// Once order is placed, app should check if there is enough of the product 
-// to fulfill request
-    // if not, log a phrase "insufficient quantity!" then prevent order from going through
-
-// If store does have enough, fill the order:
-    // update the SQL db to reflect the remaining quantity
-    // Once the update goes through, show the customer the total cost of their purchase
