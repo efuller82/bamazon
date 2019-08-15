@@ -12,6 +12,18 @@ var connection = mysql.createConnection({
 })
 
 connection.connect();
+// menu when running bamazonManager.js
+var startMenu = function () {
+    inquirer.prompt({
+        name: "managerChoice",
+        type: "list",
+        message: "What would you like to do?",
+        choices: ['Products for Sale', 'View Low Inventory', 'Add to Inventory', 'Add New Product']
+    })
+}
+
+startMenu();
+
 
 // Manager should be able to:
 // view products for sale
@@ -20,7 +32,7 @@ connection.connect();
 // add new product
 
 
-var display = function () {
+var forSale = function () {
     console.log("Connected as id: " + connection.threadId);
     connection.query("SELECT * FROM products", function (err, result) {
         if (err) throw err;
@@ -44,4 +56,7 @@ var display = function () {
         console.log('');
     })
 };
-display();
+
+var lowInventory = function () { }
+var addToInventory = function () { }
+var addNewProduct = function () { }
