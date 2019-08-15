@@ -80,7 +80,8 @@ var buy = function () {
                                 if (err) throw err;
                                 console.log("____________________________");
                                 console.log("\rWe appreciate your order." + "\rWe will now exploit our workers and the USPS on your behalf.");
-                                connection.end();
+                                // connection.end();
+                                buy();
                             }
                         )
                     }

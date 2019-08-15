@@ -14,6 +14,9 @@ var connection = mysql.createConnection({
 connection.connect();
 // menu when running bamazonManager.js
 var startMenu = function () {
+    console.log('');
+    console.log('');
+    console.log('');
     inquirer.prompt({
         name: "managerChoice",
         type: "list",
@@ -24,17 +27,19 @@ var startMenu = function () {
         switch (managerInput) {
             case 'Products for Sale':
                 forSale();
-                startMenu();
                 break;
             case 'View Low Inventory':
                 lowInventory();
-                startMenu();
                 break;
             case 'Add to Inventory':
                 addToInventory();
                 break;
             case 'Add New Product':
                 addNewProduct();
+                break;
+            case 'default':
+                forSale();
+                startMenu();
         }
     })
 
@@ -100,6 +105,7 @@ var lowInventory = function () {
         console.log('');
         console.log('');
         console.log('');
+        startMenu();
     })
 }
 
@@ -167,8 +173,8 @@ var addNewProduct = function () {
         connection.query(
             "INSERT INTO products (product_name, department_name, price) VALUES ('" + answer.newProductName + "', '" + answer.newProductDept + "', '" + answer.newProductPrice + "')", function (err) {
                 if (err) throw err;
-                console.log(values);
                 forSale();
+                startMenu();
             }
         )
     })
