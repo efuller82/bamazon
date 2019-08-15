@@ -21,13 +21,18 @@ var startMenu = function () {
         choices: ['Products for Sale', 'View Low Inventory', 'Add to Inventory', 'Add New Product']
     }).then(function (answer) {
         var managerInput = answer.managerChoice;
-        console.log(managerInput);
-        if (managerInput === 'Products for Sale') {
-            forSale();
-            console.log('');
-            console.log('');
-            console.log('');
-            startMenu();
+        switch (managerInput) {
+            case 'Products for Sale':
+                forSale();
+                startMenu();
+                break;
+            case 'View Low Inventory':
+                lowInventory();
+                startMenu();
+                break;
+            case 'Add to Inventory':
+                addToInventory();
+                break;
         }
     })
 
@@ -72,7 +77,7 @@ var forSale = function () {
 
 // function for low inventory
 var lowInventory = function () {
-    connection.query("SELECT * FROM products WHERE stock_quantity<=50", function (err, result) {
+    connection.query("SELECT * FROM products WHERE stock_quantity<=5", function (err, result) {
         if (err) throw err;
         console.log('');
         console.log('');
@@ -96,5 +101,42 @@ var lowInventory = function () {
     })
 }
 
-var addToInventory = function () { }
+var addToInventory = function () {
+    forSale();
+    inquirer.prompt({
+        name: "productToResupply",
+        type: "input",
+        message: "Enter id number of product you'd like to resupply: "
+    }).then(function (answer) {
+        var selection = answer.productToResupply;
+        connection.query('SELECT * FROM products WHERE ID=?', selection, function (err, result) {
+            if (err) throw err;
+            if (result.length === 0) {
+                console.log("That product does not exist.  Please enter a valid ID.")
+                addToInventory();
+            } else {
+                // prompt about quantity to add to stock_quantity
+                inquirer.prompt({
+                    name: "quantity",
+                    type: "input",
+                    message: "How many would you like to add?"
+                }).then(function (answerTwo) {
+                    var quantity = parseInt(answerTwo.quantity);
+                    console.log("You have added " + quantity + " to " + result[0].product_name);
+                    //update database with new quantity
+                    var newQuantity = result[0].stock_quantity + quantity;
+                    connection.query(
+                        "UPDATE products SET stock_quantity = " + newQuantity + " WHERE id = " + result[0].id, function (err, resultUpdate) {
+                            if (err) throw err;
+                            forSale();
+                            startMenu();
+                        }
+                    )
+                })
+            }
+        })
+    })
+}
+
+
 var addNewProduct = function () { }

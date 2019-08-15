@@ -73,7 +73,7 @@ var buy = function () {
                         console.log("Purchased " + quantity + " " + result[0].product_name + " @ $" + result[0].price);
                         console.log("____________________________");
                         console.log("Total: " + "$" + (quantity * result[0].price).toFixed(2));
-                        // connect to database to update quantitt
+                        // connect to database to update quantity
                         var newQuantity = result[0].stock_quantity - quantity;
                         connection.query(
                             "UPDATE products SET stock_quantity = " + newQuantity + " WHERE id = " + result[0].id, function (err, resultUpdate) {
