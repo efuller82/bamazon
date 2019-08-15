@@ -19,7 +19,19 @@ var startMenu = function () {
         type: "list",
         message: "What would you like to do?",
         choices: ['Products for Sale', 'View Low Inventory', 'Add to Inventory', 'Add New Product']
+    }).then(function (answer) {
+        var managerInput = answer.managerChoice;
+        console.log(managerInput);
+        if (managerInput === 'Products for Sale') {
+            forSale();
+            console.log('');
+            console.log('');
+            console.log('');
+            startMenu();
+        }
     })
+
+
 }
 
 startMenu();
@@ -53,6 +65,8 @@ var forSale = function () {
             table.push([result[i].id, result[i].product_name, '$' + result[i].price, result[i].stock_quantity]);
         }
         console.log(table.toString());
+        console.log('');
+        console.log('');
         console.log('');
     })
 };
