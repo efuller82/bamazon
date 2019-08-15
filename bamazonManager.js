@@ -33,6 +33,8 @@ var startMenu = function () {
             case 'Add to Inventory':
                 addToInventory();
                 break;
+            case 'Add New Product':
+                addNewProduct();
         }
     })
 
@@ -139,4 +141,32 @@ var addToInventory = function () {
 }
 
 
-var addNewProduct = function () { }
+var addNewProduct = function () {
+    function validateName(name) {
+        return name !== "";
+    }
+    var questions = [
+        {
+            name: "newProductName",
+            type: "input",
+            message: "Name of product you'd like to add: ",
+            validate: validateName
+        }, {
+            name: "newProductDept",
+            type: "list",
+            message: "In which department does this item belong?",
+            choices: ["Vegetables", "Fruits"]
+        }
+    ]
+    inquirer.prompt(questions).then(function (answer) {
+        var newProduct = answer.newProductName;
+        var newProductDepartment = answer.newProductDept;
+        connection.query(
+            "INSERT INTO products (product_name, department_name) VALUES (newProduct, newProductDepartment)", function (err) {
+                if (err) throw err;
+                forSale();
+            }
+        )
+    })
+};
+
