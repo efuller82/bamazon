@@ -45,7 +45,6 @@ startMenu();
 
 
 var forSale = function () {
-    console.log("Connected as id: " + connection.threadId);
     connection.query("SELECT * FROM products", function (err, result) {
         if (err) throw err;
         console.log('');
@@ -71,6 +70,31 @@ var forSale = function () {
     })
 };
 
-var lowInventory = function () { }
+// function for low inventory
+var lowInventory = function () {
+    connection.query("SELECT * FROM products WHERE stock_quantity<=50", function (err, result) {
+        if (err) throw err;
+        console.log('');
+        console.log('');
+        var table = new Table({
+            head: ['ID', 'Product Name', 'Cost', 'Quantity'],
+            colWidths: [8, 30, 10, 10],
+            colAligns: ['center', 'left', 'left', 'center'],
+            style: {
+                head: ['blue'],
+                compact: true
+            }
+        });
+        // loop through db and push results to the table array
+        for (var i = 0; i < result.length; i++) {
+            table.push([result[i].id, result[i].product_name, '$' + result[i].price, result[i].stock_quantity]);
+        }
+        console.log(table.toString());
+        console.log('');
+        console.log('');
+        console.log('');
+    })
+}
+
 var addToInventory = function () { }
 var addNewProduct = function () { }
