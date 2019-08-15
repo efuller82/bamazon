@@ -156,17 +156,20 @@ var addNewProduct = function () {
             type: "list",
             message: "In which department does this item belong?",
             choices: ["Vegetables", "Fruits"]
+        }, {
+            name: "newProductPrice",
+            type: "number",
+            message: "Enter a price for the item: "
         }
     ]
     inquirer.prompt(questions).then(function (answer) {
-        var newProduct = answer.newProductName;
-        var newProductDepartment = answer.newProductDept;
+        var values = answer.newProductName + ", " + answer.newProductDept;
         connection.query(
-            "INSERT INTO products (product_name, department_name) VALUES (newProduct, newProductDepartment)", function (err) {
+            "INSERT INTO products (product_name, department_name, price) VALUES ('" + answer.newProductName + "', '" + answer.newProductDept + "', '" + answer.newProductPrice + "')", function (err) {
                 if (err) throw err;
+                console.log(values);
                 forSale();
             }
         )
     })
 };
-
