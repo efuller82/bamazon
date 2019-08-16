@@ -45,7 +45,7 @@ The manager side includes a menu that offers 4 choices:
 
 -Now the new inventory list is printed.
 
-![New list printed](/images/kale.png)
+![New list printed](/images/kale.PNG)
 
 ### Two popular juice recipes:
 **1. Green Juice (about 1/2 gallon)**
