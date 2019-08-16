@@ -27,6 +27,7 @@ var startMenu = function () {
         switch (managerInput) {
             case 'Products for Sale':
                 forSale();
+                startMenu();
                 break;
             case 'View Low Inventory':
                 lowInventory();

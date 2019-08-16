@@ -79,7 +79,7 @@ var buy = function () {
                             "UPDATE products SET stock_quantity = " + newQuantity + " WHERE id = " + result[0].id, function (err, resultUpdate) {
                                 if (err) throw err;
                                 console.log("____________________________");
-                                console.log("\rWe appreciate your order." + "\rWe will now exploit our workers and the USPS on your behalf.");
+                                console.log("Thank you for your order! Good health!");
                                 // connection.end();
                                 buy();
                             }
